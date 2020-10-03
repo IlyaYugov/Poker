@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Common;
 using Common.Updater;
 
@@ -17,10 +19,10 @@ namespace Parser
             _cardsBaseParser = cardsBaseParser;
         }
 
-        public Round Parse(Game game, Player[] startedPlayers, RoundType roundType, string[] lines, ref int lineIndex)
+        public Round Parse(Game game, List<Player> startedPlayers, RoundType roundType, string[] lines, ref int lineIndex)
         {
             var round = Initialize(startedPlayers, roundType);
-            round.Cards = _cardsBaseParser.Parse(lines[lineIndex]).ToArray();
+            round.Cards = _cardsBaseParser.Parse(lines[lineIndex]);
             round.PlayerActions = _actionsBaseParser.Parse(startedPlayers, lines, ref lineIndex);
 
             _actionsUpdater.Update(game, round);
@@ -28,15 +30,14 @@ namespace Parser
             return round;
         }
 
-        private Round Initialize(Player[] startedPlayers, RoundType roundType)
+        private Round Initialize(List<Player> startedPlayers, RoundType roundType)
         {
             var round = new Round
             {
                 StartedPlayers = startedPlayers,
                 RoundType = roundType,
-                FinishedPlayers = new Player[startedPlayers.Length]
+                FinishedPlayers = startedPlayers.Select(p=>p).ToList()
             };
-            Array.Copy(startedPlayers, round.FinishedPlayers, round.StartedPlayers.Length);
 
             return round;
         }

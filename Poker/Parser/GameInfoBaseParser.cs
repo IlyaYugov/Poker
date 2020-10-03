@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Common;
 
 namespace Parser
@@ -11,10 +12,13 @@ namespace Parser
 
             while (true)
             {
+                if (lineIndex >= lines.Length - 1)
+                    return currentGame;
+
                 var line = lines[lineIndex];
 
-                if (line.Contains("888poker Snap"))
-                    currentGame.GameType = GameType.Cash;
+/*                if (line.Contains("888poker Snap"))
+                    currentGame.GameType = GameType.Cash;*/
 
                 if (line.Contains("No Limit Holdem"))
                 {
@@ -34,7 +38,7 @@ namespace Parser
                 if (line.Contains("Total number of players"))
                 {
                     currentGame.PlayersCount = Convert.ToInt32(line.Substring(line.Length - 1, 1));
-                    currentGame.Players = new Player[currentGame.PlayersCount];
+                    currentGame.Players = new List<Player>(currentGame.PlayersCount);
                     break;
                 }
 

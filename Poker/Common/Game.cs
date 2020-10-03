@@ -9,7 +9,8 @@ namespace Common
             Rounds = new List<Round>();
         }
 
-        public Player[] Players { get; set; }
+        public int Id { get; set; }
+        public List<Player> Players { get; set; }
         public Board Board { get; set; }
         public List<Round> Rounds { get; set; }
         public double TotalBank { get; set; }

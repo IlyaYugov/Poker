@@ -1,4 +1,6 @@
-﻿namespace Common.Updater
+﻿using System.Collections.Generic;
+
+namespace Common.Updater
 {
     public class BlindsMoneyUpdater
     {
@@ -9,7 +11,7 @@
             _blindMoneyUpdater = blindMoneyUpdater;
         }
 
-        public void UpdateGameBankAndPlayersMoney(Game game, Player[] blindPlayers)
+        public void UpdateGameBankAndPlayersMoney(Game game, List<Player> blindPlayers)
         {
             foreach (var blindPlayer in blindPlayers)
             {

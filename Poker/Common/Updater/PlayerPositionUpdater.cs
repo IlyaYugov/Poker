@@ -1,13 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using Common.Extenstions;
 
 namespace Common.Updater
 {
     public class PlayerPositionUpdater
     {
-        public void Update(Player[] players)
+        public void Update(List<Player> players)
         {
-            var bigBlindPlayerIndex = Array.FindIndex(players, 0, player => player.PositionType == PositionType.BigBlind);
+            var bigBlindPlayerIndex = players.FindIndex(player => player.PositionType == PositionType.BigBlind);
 
             if (bigBlindPlayerIndex == -1)
             {
@@ -22,7 +23,7 @@ namespace Common.Updater
 
                 index++;
 
-                if (index > players.Length - 1)
+                if (index > players.Count - 1)
                     index = 0;
 
                 if (players[index].PositionType == PositionType.Diller)

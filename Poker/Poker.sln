@@ -9,6 +9,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Parser", "Parser\Parser.csproj", "{CD4323BD-DF56-4EF6-BB3C-80FE959307FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PosgreSqlPovider", "PosgreSqlPovider\PosgreSqlPovider.csproj", "{B3DBB90F-10F3-461D-AA15-C70FC76AC3F6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StatisticsCalculator", "StatisticsCalculator\StatisticsCalculator.csproj", "{A0908CFB-6BE4-472C-94E9-102979414210}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +31,14 @@ Global
 		{CD4323BD-DF56-4EF6-BB3C-80FE959307FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD4323BD-DF56-4EF6-BB3C-80FE959307FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD4323BD-DF56-4EF6-BB3C-80FE959307FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3DBB90F-10F3-461D-AA15-C70FC76AC3F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3DBB90F-10F3-461D-AA15-C70FC76AC3F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3DBB90F-10F3-461D-AA15-C70FC76AC3F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3DBB90F-10F3-461D-AA15-C70FC76AC3F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A0908CFB-6BE4-472C-94E9-102979414210}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A0908CFB-6BE4-472C-94E9-102979414210}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A0908CFB-6BE4-472C-94E9-102979414210}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A0908CFB-6BE4-472C-94E9-102979414210}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

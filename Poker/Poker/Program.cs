@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -7,6 +8,7 @@ using Common;
 using Common.Extenstions;
 using Common.Updater;
 using Parser;
+using PosgreSqlPovider;
 
 namespace Poker
 {
@@ -74,13 +76,6 @@ namespace Poker
 
             var allFileLines = File.ReadAllLines(@"C:\Projects\PokerStatistic\StaticticExample.txt");
 
-            var games = new List<Game>();
-
-            var currentGame = new Game();
-            var currentRound = new Round();
-            var playerIndex = 0;
-
-
 
             var gamesParser = new GamesParser(
                 new GameBaseParser(
@@ -103,312 +98,34 @@ namespace Poker
                             new BlindMoneyUpdater())),
                     new PlayerPositionUpdater()));
 
-            var game = gamesParser.Parse(allFileLines);
+            var filePaths = Directory
+                .GetFiles(@"C:\Users\ilyaugov\Documents\888poker\HandHistory\Napaum");
 
-            /*            foreach (var line in allFileLines)
-                        {
-                            if (line.Contains("#Game No"))
-                            {
-                                currentGame = new Game();
-                                currentRound = new Round();
-                                currentGame.Rounds.Add(currentRound);
-                                games.Add(currentGame);
-                                playerIndex = 0;
-                            }
+            filePaths = filePaths.Where(f =>
+                !f.Contains("Sit & Go") &&
+                !f.Contains("Tournament") &&
+                !f.Contains("BLAST")).ToArray();
 
-                            ParseGameInfo(currentGame, currentRound, line);
-                            PlayersParser(currentGame, ref playerIndex, line);
-                            ParseBlinds(currentGame, line); // ?????????????
-                            ParseCards(currentGame, line);
-                            ParseActions(currentGame, currentRound, line);
-                            ParseRounds(currentGame, currentRound, line);
-                        }*/
-        }
+            var games = new List<Game>();
 
-        private static void ParseCards(Game currentGame, string line)
-        {
-            if (line.Contains("Dealt") || line.Contains("shows"))
+            Debug.WriteLine($"Total count: {filePaths.Length}");
+            int i = 0;
+
+            foreach (var filePath in filePaths)
             {
-                var player = currentGame.Players.First(p => line.Contains(p.NickName));
-                player.Cards = ParsePlayerAndBoardCards(line).ToArray();
-            }
-        }
+                allFileLines = File.ReadAllLines(filePath);
+                games.AddRange(gamesParser.Parse(allFileLines));
 
-        private static void ParseBlinds(Game currentGame, string line)
-        {
-            if (line.Contains("small blind"))
-            {
-                var smallBlindPlayer = currentGame.Players.First(p => line.Contains(p.NickName));
-                smallBlindPlayer.Money -= currentGame.SmallBlind;
-                smallBlindPlayer.PositionType = PositionType.SmallBlind;
-                currentGame.TotalBank += currentGame.SmallBlind;
+                Debug.WriteLine($"completed: {++i}");
             }
 
-            if (line.Contains("big blind"))
-            {
-                var bigBlindPlayer = currentGame.Players.First(p => line.Contains(p.NickName));
-                bigBlindPlayer.Money -= currentGame.BigBlind;
-                bigBlindPlayer.PositionType = PositionType.BigBlind;
-                currentGame.TotalBank += currentGame.BigBlind;
+            /*var gamesFileStrings = filePaths.SelectMany(File.ReadAllLines).ToArray();
+            var games = gamesParser.Parse(gamesFileStrings);*/
 
-                var index = Array.IndexOf(currentGame.Players, bigBlindPlayer);
+            var dbContext = new PokerDbContext();
 
-                while (true)
-                {
-                    var currentPlayerPositionTYpe = currentGame.Players[index].PositionType;
-
-                    index++;
-
-                    if (index > currentGame.Players.Length - 1)
-                        index = 0;
-
-                    if (currentGame.Players[index].PositionType == PositionType.Diller)
-                        break;
-
-                    currentGame.Players[index].PositionType = currentPlayerPositionTYpe.Next();
-                }
-            }
-        }
-
-        private static void ParseGameInfo(Game currentGame, Round currentRound, string line)
-        {
-            if (line.Contains("888poker Snap"))
-                currentGame.GameType = GameType.Cash;
-
-            if (currentGame.Rounds.Any()
-                && currentRound.RoundType == RoundType.None
-                && line.Contains("No Limit Holdem"))
-            {
-                currentGame.GameLimit = line.Substring(0, line.LastIndexOf('$') + 1);
-                currentGame.SmallBlind = Convert.ToDouble(line.Substring(0, line.IndexOf('$') - 1));
-                currentGame.BigBlind = Convert.ToDouble(line.Substring(line.IndexOf('/') + 1, (line.LastIndexOf('$') - 2) - (line.IndexOf('/') + 1) + 1));
-            }
-
-
-            if (line.Contains("Table Quilpue"))
-                currentGame.MaxPlayersCount = Convert.ToInt32(line.Replace("Table Quilpue ", "").Substring(0, 1));
-
-            if (line.Contains("button"))
-                currentGame.ButtonSeatStringPart = line.Substring(0, 6);
-
-            if (line.Contains("Total number of players"))
-            {
-                currentGame.PlayersCount = Convert.ToInt32(line.Substring(line.Length - 1, 1));
-                currentGame.Players = new Player[currentGame.PlayersCount];
-            }
-        }
-
-        private static void PlayersParser(Game currentGame, ref int playerIndex, string line)
-        {
-            if (line.Contains("Seat") && line.Contains(":"))
-            {
-                currentGame.Players[playerIndex] = ParsePlayer(line);
-
-                if (line.Contains(currentGame.ButtonSeatStringPart))
-                    currentGame.Players[playerIndex].PositionType = PositionType.Diller;
-
-                playerIndex++;
-            }
-        }
-
-        private static void ParseActions(Game currentGame, Round currentRound, string line)
-        {
-            if (line.Contains("folds"))
-            {
-                ParseAndSavePlayersActions(currentGame, currentRound, ActionType.Fold, line);
-            }
-
-            if (line.Contains("checks"))
-            {
-                ParseAndSavePlayersActions(currentGame, currentRound, ActionType.Check, line);
-            }
-
-            if (line.Contains("raises") || line.Contains("bets"))
-            {
-                ParseAndSavePlayersActions(currentGame, currentRound, ActionType.Raise, line);
-            }
-
-            if (line.Contains("calls"))
-            {
-                ParseAndSavePlayersActions(currentGame, currentRound, ActionType.Call, line);
-            }
-
-            if (line.Contains("collected"))
-            {
-                ParseAndSavePlayersActions(currentGame, currentRound, ActionType.Collected, line);
-            }
-        }
-
-        private static void ParseRounds(Game currentGame, Round currentRound, string line)
-        {
-            if (line.Contains("down cards"))
-            {
-                ParseRound(currentGame, currentRound, RoundType.PreFlop, line);
-            }
-
-            if (line.Contains("flop"))
-            {
-                ParseRound(currentGame, currentRound, RoundType.Flop, line);
-            }
-
-            if (line.Contains("turn"))
-            {
-                ParseRound(currentGame, currentRound, RoundType.Turn, line);
-            }
-
-            if (line.Contains("river"))
-            {
-                ParseRound(currentGame, currentRound, RoundType.River, line);
-            }
-
-            if (line.Contains("Summary"))
-            {
-                ParseRound(currentGame, currentRound, RoundType.ShowDown, line);
-            }
-        }
-
-        private static void ParseAndSavePlayersActions(Game game, Round round, ActionType actionType, string line)
-        {
-            var player = round.FinishedPlayers.First(p => line.Contains(p.NickName));
-            var action = new PlayerAction
-            {
-                Player = player,
-                ActionType = actionType,
-                Money = ParseMoney(line, '[')
-            };
-
-            if (actionType == ActionType.Fold)
-            {
-                round.FinishedPlayers = round.FinishedPlayers.Where(p => p != player).ToArray();
-            }
-
-            round.PlayerActions.Add(action);
-            if (actionType != ActionType.Collected && actionType != ActionType.Check)
-            {
-                player.Money -= action.Money;
-                game.TotalBank += action.Money;
-            }
-            if (actionType == ActionType.Collected)
-            {
-                player.Money += action.Money;
-            }
-        }
-
-        private static void ParseRound(Game game, Round round, RoundType roundType, string line)
-        {
-            if (game.Board == null)
-                game.Board = new Board();
-
-            if (game.Board.Cards == null)
-                game.Board.Cards = new List<Card>();
-
-            if (roundType == RoundType.PreFlop)
-            {
-                round.StartedPlayers = game.Players;
-                round.FinishedPlayers = new Player[game.Players.Length];
-                round.RoundType = roundType;
-                Array.Copy(game.Players, round.FinishedPlayers, game.Players.Length);
-            }
-            else
-            {
-                round = new Round
-                {
-                    StartedPlayers = round.FinishedPlayers,
-                    RoundType = roundType,
-                    FinishedPlayers = new Player[round.StartedPlayers.Length]
-                };
-                Array.Copy(round.StartedPlayers, round.FinishedPlayers, round.StartedPlayers.Length);
-                game.Board.Cards.AddRange(ParsePlayerAndBoardCards(line));
-                game.Rounds.Add(round);
-            }
-        }
-
-        private static Player ParsePlayer(string line)
-        {
-            var separator = '(';
-            var startNickNameIndex = line.IndexOf(':') + 2;
-            var finishNickNameIndex = line.IndexOf(separator) - 2;
-
-            var player = new Player
-            {
-                NickName = line.Substring(startNickNameIndex, finishNickNameIndex - startNickNameIndex + 1),
-                Money = ParseMoney(line, separator)
-            };
-
-            return player;
-        }
-
-        private static List<Card> ParsePlayerAndBoardCards(string line)
-        {
-            if (!line.Contains('['))
-                return new List<Card>();
-
-            var startNickNameIndex = line.IndexOf('[') + 2;
-            var finishNickNameIndex = line.IndexOf(']') - 2;
-
-            var cardsString = line.Substring(startNickNameIndex, finishNickNameIndex - startNickNameIndex + 1);
-            var cards = cardsString.Split(", ").Select(ParseCard).ToList();
-
-            return cards;
-        }
-
-        private static Card ParseCard(string cardString)
-        {
-            var rank = GetRankByChar(cardString[0]);
-            var suit = GetSuitByChar(cardString[1]);
-            var card = new Card(rank, suit);
-
-            return card;
-        }
-
-        private static CardSuit GetSuitByChar(char suit)
-        {
-            switch (suit)
-            {
-                case 'c':
-                    return CardSuit.Club;
-                case 'd':
-                    return CardSuit.Diamond;
-                case 'h':
-                    return CardSuit.Heart;
-                default:
-                    return CardSuit.Spade;
-            }
-        }
-
-        private static CardRank GetRankByChar(char rank)
-        {
-            switch (rank)
-            {
-                case { } when (int)char.GetNumericValue(rank) != -1:
-                    return (CardRank)(int)char.GetNumericValue(rank);
-                case 'T':
-                    return CardRank.Ten;
-                case 'J':
-                    return CardRank.Jack;
-                case 'Q':
-                    return CardRank.Queen;
-                case 'K':
-                    return CardRank.King;
-                default:
-                    return CardRank.Ace;
-            }
-        }
-
-        public static double ParseMoney(string line, char separator)
-        {
-            if (!line.Contains(separator))
-                return 0;
-
-            var separatorIndex = line.IndexOf(separator);
-            var subLine = line.Substring(separatorIndex, line.Length - separatorIndex);
-
-            var firstIndexOfNumber = subLine.ToList().FindIndex(char.IsNumber);
-            var lastIndexOfNumber = subLine.ToList().FindLastIndex(char.IsNumber);
-
-            var money = Convert.ToDouble(subLine.Substring(firstIndexOfNumber, lastIndexOfNumber - firstIndexOfNumber + 1));
-
-            return money;
+            dbContext.Game.AddRange(games);
+            dbContext.SaveChanges();
         }
     }
 }

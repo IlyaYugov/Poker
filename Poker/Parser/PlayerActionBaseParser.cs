@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Common;
 
 namespace Parser
@@ -12,9 +13,12 @@ namespace Parser
             _moneyBaseParser = moneyBaseParser;
         }
 
-        public PlayerAction Parse(Player[] roundPlayers, ActionType actionType, string line)
+        public PlayerAction Parse(List<Player> roundPlayers, ActionType actionType, string line)
         {
-            var player = roundPlayers.First(p => line.Contains(p.NickName));
+            var player = roundPlayers.FirstOrDefault(p => line.Contains(p.NickName));
+            if(player == null)
+                return new PlayerAction();
+
             var action = new PlayerAction
             {
                 Player = player,

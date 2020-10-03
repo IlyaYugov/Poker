@@ -8,11 +8,13 @@ namespace Common
         {
             PlayerActions = new List<PlayerAction>();
         }
-        public Player[] StartedPlayers { get; set; }
-        public Player[] FinishedPlayers { get; set; }
+
+        public int Id { get; set; }
+        public List<Player> StartedPlayers { get; set; }
+        public List<Player> FinishedPlayers { get; set; }
         public RoundType RoundType { get; set; }
         public List<PlayerAction> PlayerActions { get; set; }
-        public Card[] Cards { get; set; }
-
+        public List<Card> Cards { get; set; }
+        public Game Game { get; set; }
     }
 }

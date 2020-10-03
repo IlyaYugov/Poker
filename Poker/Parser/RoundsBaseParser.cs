@@ -24,27 +24,27 @@ namespace Parser
             {
                 var line = lines[lineIndex];
 
-                if (line.Contains("down cards"))
+                if (line.Contains("down cards") && IsContainsString2(line))
                 {
                     rounds.Add(_roundParser.Parse(game, game.Players, RoundType.PreFlop, lines, ref lineIndex));
                 }
 
-                if (line.Contains("flop"))
+                if (line.Contains("flop") && IsContainsString2(line))
                 {
                     rounds.Add(_roundParser.Parse(game, rounds.Last().FinishedPlayers, RoundType.Flop, lines, ref lineIndex));
                 }
 
-                if (line.Contains("turn"))
+                if (line.Contains("turn") && IsContainsString2(line))
                 {
                     rounds.Add(_roundParser.Parse(game, rounds.Last().FinishedPlayers, RoundType.Turn, lines, ref lineIndex));
                 }
 
-                if (line.Contains("river"))
+                if (line.Contains("river") && IsContainsString2(line))
                 {
                     rounds.Add(_roundParser.Parse(game, rounds.Last().FinishedPlayers, RoundType.River, lines, ref lineIndex));
                 }
 
-                if (line.Contains("Summary"))
+                if (line.Contains("Summary") && IsContainsString2(line))
                 {
                     rounds.Add(_roundParser.Parse(game, rounds.Last().FinishedPlayers, RoundType.ShowDown, lines, ref lineIndex));
                     break;
@@ -61,11 +61,16 @@ namespace Parser
         {
             foreach (var pattern in RoundPatterns)
             {
-                if (line.Contains(pattern))
+                if (line.Contains(pattern) && IsContainsString2(line))
                     return true;
             }
 
             return false;
+        }
+
+        private static bool IsContainsString2(string line)
+        {
+            return line.Contains("**");
         }
     }
 }

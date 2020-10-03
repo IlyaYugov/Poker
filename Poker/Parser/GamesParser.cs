@@ -18,6 +18,8 @@ namespace Parser
             while (lineIndex < lines.Length - 1)
             {
                 var game = _gameBaseParser.Parse(lines, ref lineIndex);
+                if(game == null)
+                    continue;
                 games.Add(game);
             }
 

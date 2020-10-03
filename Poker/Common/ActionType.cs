@@ -6,12 +6,12 @@
         Check,
         Raise,
         Call,
-        Allin,
+/*        Allin,
 
         ReRaise,
         ThreeBet,
         CBet,
-        RaiseReRaise,
+        RaiseReRaise,*/
         Collected
     }
 }

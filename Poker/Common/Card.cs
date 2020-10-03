@@ -2,6 +2,7 @@
 {
     public class Card
     {
+        public int Id { get; set; }
         public CardRank CardRank { get; }
         public CardSuit CardSuit { get; }
 
@@ -9,6 +10,11 @@
         {
             CardRank = cardRank;
             CardSuit = cardSuit;
+        }
+
+        public Card()
+        {
+
         }
     }
 }

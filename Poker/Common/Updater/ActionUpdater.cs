@@ -8,7 +8,7 @@ namespace Common.Updater
         {
             if (action.ActionType == ActionType.Fold)
             {
-                round.FinishedPlayers = round.FinishedPlayers.Where(p => p != player).ToArray();
+                round.FinishedPlayers = round.FinishedPlayers.Where(p => p != player).ToList();
             }
         }
 
@@ -22,6 +22,8 @@ namespace Common.Updater
 
         private void UpdatePlayerMoney(Player player, PlayerAction action)
         {
+            if(player == null)
+                return;
             if (action.ActionType == ActionType.Collected)
             {
                 player.Money += action.Money;

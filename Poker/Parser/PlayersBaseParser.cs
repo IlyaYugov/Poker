@@ -1,4 +1,5 @@
-﻿using Common;
+﻿using System.Collections.Generic;
+using Common;
 
 namespace Parser
 {
@@ -11,18 +12,18 @@ namespace Parser
             _playerBaseParser = playerBaseParser;
         }
 
-        public Player[] Parse(string[] lines, ref int lineIndex, int playersCount)
+        public List<Player> Parse(string[] lines, ref int lineIndex, int playersCount)
         {
-            var players = new Player[playersCount];
+            var players = new List<Player>(playersCount);
             var playerIndex = 0;
 
             do
             {
                 lineIndex++;
                 var player = _playerBaseParser.Parse(lines[lineIndex]);
-                players[playerIndex] = player;
+                players.Add(player);
                 playerIndex++;
-            } while (playerIndex < players.Length);
+            } while (playerIndex < playersCount);
 
             return players;
         }

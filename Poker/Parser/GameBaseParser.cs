@@ -22,8 +22,16 @@ namespace Parser
         public Game Parse(string[] lines, ref int lineIndex)
         {
             var game = _gameInfoBaseParser.Parse(lines, ref lineIndex);
+
+            if (lineIndex >= lines.Length - 1)
+                return null;
+
             game.Players = _playersBaseParser.Parse(lines, ref lineIndex, game.PlayersCount);
-            _playerBlindsBaseParser.Parse(game, lines, ref lineIndex);
+            var blindPlayers = _playerBlindsBaseParser.Parse(game, lines, ref lineIndex);
+
+            if (blindPlayers.Count != 2)
+                return null;
+
             game.Rounds = _roundsBaseParser.Parse(game, lines, ref lineIndex);
 
             var cards = game.Rounds.SelectMany(r => r.Cards).ToList();

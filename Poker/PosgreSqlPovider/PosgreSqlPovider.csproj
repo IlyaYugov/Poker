@@ -6,9 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.1.4" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
-    <ProjectReference Include="..\Parser\Parser.csproj" />
-    <ProjectReference Include="..\PosgreSqlPovider\PosgreSqlPovider.csproj" />
   </ItemGroup>
 
 </Project>
