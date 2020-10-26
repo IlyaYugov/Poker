@@ -38,7 +38,7 @@ namespace Parser
                 if (line.Contains("Total number of players"))
                 {
                     currentGame.PlayersCount = Convert.ToInt32(line.Substring(line.Length - 1, 1));
-                    currentGame.Players = new List<Player>(currentGame.PlayersCount);
+                    currentGame.PlayerGameSnapshots = new List<PlayerGameSnapshot>(currentGame.PlayersCount);
                     break;
                 }
 

@@ -6,7 +6,7 @@ namespace Common.Updater
 {
     public class PlayerPositionUpdater
     {
-        public void Update(List<Player> players)
+        public void Update(List<PlayerGameSnapshot> players)
         {
             var bigBlindPlayerIndex = players.FindIndex(player => player.PositionType == PositionType.BigBlind);
 

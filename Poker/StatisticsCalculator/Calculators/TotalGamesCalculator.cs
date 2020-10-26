@@ -5,9 +5,9 @@ namespace StatisticsCalculator.Calculators
 {
     public class TotalGamesCalculator :IStatisticCalculator<int>
     {
-        public int Calculate(Player player, List<Game> playerGames)
+        public int Calculate(Player player)
         {
-            return playerGames.Count;
+            return player.Games.Count;
         }
     }
 }

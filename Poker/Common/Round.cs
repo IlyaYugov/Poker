@@ -10,8 +10,8 @@ namespace Common
         }
 
         public int Id { get; set; }
-        public List<Player> StartedPlayers { get; set; }
-        public List<Player> FinishedPlayers { get; set; }
+        public List<PlayerGameSnapshot> StartedPlayers { get; set; }
+        public List<PlayerGameSnapshot> FinishedPlayers { get; set; }
         public RoundType RoundType { get; set; }
         public List<PlayerAction> PlayerActions { get; set; }
         public List<Card> Cards { get; set; }

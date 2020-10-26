@@ -12,7 +12,7 @@ namespace Parser
             _actionBaseParser = actionBaseParser;
         }
 
-        public List<PlayerAction> Parse(List<Player> roundPlayers, string[] lines, ref int lineIndex)
+        public List<PlayerAction> Parse(List<PlayerGameSnapshot> roundPlayers, string[] lines, ref int lineIndex)
         {
             var actions = new List<PlayerAction>();
 

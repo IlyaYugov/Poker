@@ -12,9 +12,9 @@ namespace Parser
             _playerBaseParser = playerBaseParser;
         }
 
-        public List<Player> Parse(string[] lines, ref int lineIndex, int playersCount)
+        public List<PlayerGameSnapshot> Parse(string[] lines, ref int lineIndex, int playersCount)
         {
-            var players = new List<Player>(playersCount);
+            var players = new List<PlayerGameSnapshot>(playersCount);
             var playerIndex = 0;
 
             do

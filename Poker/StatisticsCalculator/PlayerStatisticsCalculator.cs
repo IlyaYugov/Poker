@@ -31,18 +31,18 @@ namespace StatisticsCalculator
             _winnedBlindsCalculator = winnedBlindsCalculator;
         }
 
-        public PlayerStatistic Calculate(Player player, List<Game> playerGames)
+        public PlayerStatistic Calculate(Player player)
         {
             var playerStatistics = new PlayerStatistic
             {
-                Player = player,
-                TotalGames = _totalGamesCalculator.Calculate(player, playerGames),
-                TotalEnterFlop = _totalEnterFlopCalculator.Calculate(player, playerGames),
-                TotalEnterTurn = _totalEnterTurnCalculator.Calculate(player, playerGames),
-                TotalEnterRiver = _totalEnterRiverCalculator.Calculate(player, playerGames),
-                TotalEnterShowDown = _totalEnterShowDownCalculator.Calculate(player, playerGames),
-                WinnedMoney = _winnedMoneyCalculator.Calculate(player, playerGames),
-                WinnedBlinds = _winnedBlindsCalculator.Calculate(player, playerGames)
+                PlayerGameSnapshot = player,
+                TotalGames = _totalGamesCalculator.Calculate(player),
+                TotalEnterFlop = _totalEnterFlopCalculator.Calculate(player),
+                TotalEnterTurn = _totalEnterTurnCalculator.Calculate(player),
+                TotalEnterRiver = _totalEnterRiverCalculator.Calculate(player),
+                TotalEnterShowDown = _totalEnterShowDownCalculator.Calculate(player),
+                WinnedMoney = _winnedMoneyCalculator.Calculate(player),
+                WinnedBlinds = _winnedBlindsCalculator.Calculate(player)
             };
 
             return playerStatistics;

@@ -26,7 +26,7 @@ namespace Parser
 
                 if (line.Contains("down cards") && IsContainsString2(line))
                 {
-                    rounds.Add(_roundParser.Parse(game, game.Players, RoundType.PreFlop, lines, ref lineIndex));
+                    rounds.Add(_roundParser.Parse(game, game.PlayerGameSnapshots, RoundType.PreFlop, lines, ref lineIndex));
                 }
 
                 if (line.Contains("flop") && IsContainsString2(line))

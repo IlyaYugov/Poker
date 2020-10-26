@@ -11,7 +11,7 @@ namespace Common.Updater
             _blindMoneyUpdater = blindMoneyUpdater;
         }
 
-        public void UpdateGameBankAndPlayersMoney(Game game, List<Player> blindPlayers)
+        public void UpdateGameBankAndPlayersMoney(Game game, List<PlayerGameSnapshot> blindPlayers)
         {
             foreach (var blindPlayer in blindPlayers)
             {

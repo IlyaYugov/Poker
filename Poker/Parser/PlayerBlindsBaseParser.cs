@@ -16,9 +16,9 @@ namespace Parser
             _blindsMoneyUpdater = blindsMoneyUpdater;
         }
 
-        public List<Player> Parse(Game game, string[] lines, ref int lineIndex)
+        public List<PlayerGameSnapshot> Parse(Game game, string[] lines, ref int lineIndex)
         {
-            var blindPlayers = new List<Player>();
+            var blindPlayers = new List<PlayerGameSnapshot>();
 
             while (true)
             {
@@ -28,7 +28,7 @@ namespace Parser
                 var line = lines[lineIndex];
                 if (line.Contains("small blind"))
                 {
-                    var smallBlindPlayer = game.Players.FirstOrDefault(p => line.Contains(p.NickName));
+                    var smallBlindPlayer = game.PlayerGameSnapshots.FirstOrDefault(p => line.Contains(p.Player.NickName));
 
                     if (smallBlindPlayer == null)
                         return blindPlayers;
@@ -39,7 +39,7 @@ namespace Parser
 
                 if (line.Contains("big blind"))
                 {
-                    var bigBlindPlayer = game.Players.FirstOrDefault(p => line.Contains(p.NickName));
+                    var bigBlindPlayer = game.PlayerGameSnapshots.FirstOrDefault(p => line.Contains(p.Player.NickName));
 
                     if (bigBlindPlayer == null)
                         return blindPlayers;
@@ -54,7 +54,7 @@ namespace Parser
             }
 
             _blindsMoneyUpdater.UpdateGameBankAndPlayersMoney(game, blindPlayers);
-            _playerPositionUpdater.Update(game.Players);
+            _playerPositionUpdater.Update(game.PlayerGameSnapshots);
 
             return blindPlayers;
         }

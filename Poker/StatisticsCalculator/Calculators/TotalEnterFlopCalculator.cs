@@ -6,9 +6,9 @@ namespace StatisticsCalculator.Calculators
 {
     public class TotalEnterFlopCalculator: IStatisticCalculator<int>
     {
-        public int Calculate(Player player, List<Game> playerGames)
+        public int Calculate(Player player)
         {
-            var playerFlopRounds = player.StartedRounds
+            var playerFlopRounds = player.PlayerGameSnapshots.SelectMany(ps=>ps.StartedRounds)
                 .Where(round => round.RoundType == RoundType.Flop);
 
             return playerFlopRounds.Count();

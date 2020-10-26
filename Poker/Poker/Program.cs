@@ -7,8 +7,11 @@ using System.Text.RegularExpressions;
 using Common;
 using Common.Extenstions;
 using Common.Updater;
+using Microsoft.EntityFrameworkCore;
 using Parser;
 using PosgreSqlPovider;
+using StatisticsCalculator;
+using StatisticsCalculator.Calculators;
 
 namespace Poker
 {
@@ -16,7 +19,7 @@ namespace Poker
     {
         static void Main(string[] args)
         {
-            var firstPlayerCards = new[]
+            /*var firstPlayerCards = new[]
             {
                 new Card(CardRank.Ace, CardSuit.Diamond),
                 new Card(CardRank.Two, CardSuit.Diamond),
@@ -35,7 +38,7 @@ namespace Poker
                 new Card(CardRank.Four, CardSuit.Diamond),
             };
 
-            var allCards = firstPlayerCards.Union(boardCards).ToArray();
+            var allCards = firstPlayerCards.Union(boardCards).ToArray();*/
 
             //var IsPair = CombinationFactory.IsPair(allCards);
             //var IsTwoPairs = CombinationFactory.IsTwoPairs(allCards);
@@ -46,86 +49,109 @@ namespace Poker
             //var IsFourOfAKind = CombinationFactory.IsFourOfAKind(allCards);
             //var IsStraightFlush = CombinationFactory.IsStraightFlush(allCards);
 
-            var two = @"(\d)?\1";
-            var three = @"(\d)\1\1";
-            var four = @"(\d)\1\1\1";
+            /* var two = @"(\d)?\1";
+             var three = @"(\d)\1\1";
+             var four = @"(\d)\1\1\1";
 
-            var flush = @"\bs*(\d)\b";
-
-
-            //string three = @"(\d)\1\1";
-            var pairRegularExp = new Regex(two);
-
-            var t1 = Regex.Matches("113444", two);
-            var t2 = Regex.Matches("113444", two);
-            var t3 = Regex.Matches("113444", two);
-            var t4 = Regex.Matches("113444", two);
-
-            var t5 = Regex.Matches("1122234444", three);
-            var t6 = Regex.Matches("112234444", three);
-            var t221 = Regex.Matches("112234444", three);
-            var t231 = Regex.Matches("112234444", three);
-
-            var t341 = Regex.Matches("111233345", four);
-            var t351 = Regex.Matches("111233345", four);
-            var t361 = Regex.Matches("1112333345", four);
-            var t371 = Regex.Matches("11112333345", four);
-
-            var t376 = Regex.Matches(" t0 s1 s2 s3 s4 s5 s6", flush);
+             var flush = @"\bs*(\d)\b";
 
 
-            var allFileLines = File.ReadAllLines(@"C:\Projects\PokerStatistic\StaticticExample.txt");
+             //string three = @"(\d)\1\1";
+             var pairRegularExp = new Regex(two);
+
+             var t1 = Regex.Matches("113444", two);
+             var t2 = Regex.Matches("113444", two);
+             var t3 = Regex.Matches("113444", two);
+             var t4 = Regex.Matches("113444", two);
+
+             var t5 = Regex.Matches("1122234444", three);
+             var t6 = Regex.Matches("112234444", three);
+             var t221 = Regex.Matches("112234444", three);
+             var t231 = Regex.Matches("112234444", three);
+
+             var t341 = Regex.Matches("111233345", four);
+             var t351 = Regex.Matches("111233345", four);
+             var t361 = Regex.Matches("1112333345", four);
+             var t371 = Regex.Matches("11112333345", four);
+
+             var t376 = Regex.Matches(" t0 s1 s2 s3 s4 s5 s6", flush);*/
 
 
-            var gamesParser = new GamesParser(
-                new GameBaseParser(
-                    new GameInfoBaseParser(),
-                    new PlayersBaseParser(
-                        new PlayerBaseParser(
-                            new MoneyBaseParser())),
-                    new RoundsBaseParser(
-                        new RoundParser(
-                            new PlayerActionsBaseParser(
-                                new PlayerActionBaseParser(
-                                    new MoneyBaseParser())),
-                            new ActionsUpdater(
-                                new ActionUpdater()),
-                            new CardsBaseParser(
-                                new CardBaseParser()))),
-                    new PlayerBlindsBaseParser(
-                        new PlayerPositionUpdater(),
-                        new BlindsMoneyUpdater(
-                            new BlindMoneyUpdater())),
-                    new PlayerPositionUpdater()));
+            /*            var allFileLines = File.ReadAllLines(@"C:\Projects\PokerStatistic\StaticticExample.txt");
 
-            var filePaths = Directory
-                .GetFiles(@"C:\Users\ilyaugov\Documents\888poker\HandHistory\Napaum");
 
-            filePaths = filePaths.Where(f =>
-                !f.Contains("Sit & Go") &&
-                !f.Contains("Tournament") &&
-                !f.Contains("BLAST")).ToArray();
+                        var gamesParser = new GamesParser(
+                            new GameBaseParser(
+                                new GameInfoBaseParser(),
+                                new PlayersBaseParser(
+                                    new PlayerBaseParser(
+                                        new MoneyBaseParser())),
+                                new RoundsBaseParser(
+                                    new RoundParser(
+                                        new PlayerActionsBaseParser(
+                                            new PlayerActionBaseParser(
+                                                new MoneyBaseParser())),
+                                        new ActionsUpdater(
+                                            new ActionUpdater()),
+                                        new CardsBaseParser(
+                                            new CardBaseParser()))),
+                                new PlayerBlindsBaseParser(
+                                    new PlayerPositionUpdater(),
+                                    new BlindsMoneyUpdater(
+                                        new BlindMoneyUpdater())),
+                                new PlayerPositionUpdater()));
 
-            var games = new List<Game>();
+                        var filePaths = Directory
+                            .GetFiles(@"C:\Users\ilyaugov\Documents\888poker\HandHistory\Napaum");
 
-            Debug.WriteLine($"Total count: {filePaths.Length}");
-            int i = 0;
+                        filePaths = filePaths.Where(f =>
+                            !f.Contains("Sit & Go") &&
+                            !f.Contains("Tournament") &&
+                            !f.Contains("BLAST")).ToArray();
 
-            foreach (var filePath in filePaths)
-            {
-                allFileLines = File.ReadAllLines(filePath);
-                games.AddRange(gamesParser.Parse(allFileLines));
+                        var games = new List<Game>();
 
-                Debug.WriteLine($"completed: {++i}");
-            }
+                        Debug.WriteLine($"Total count: {filePaths.Length}");
+                        int i = 0;
 
-            /*var gamesFileStrings = filePaths.SelectMany(File.ReadAllLines).ToArray();
-            var games = gamesParser.Parse(gamesFileStrings);*/
+                        foreach (var filePath in filePaths)
+                        {
+                            allFileLines = File.ReadAllLines(filePath);
+                            games.AddRange(gamesParser.Parse(allFileLines));
+
+                            Debug.WriteLine($"completed: {++i}");
+                        }
+
+                        */ /*var gamesFileStrings = filePaths.SelectMany(File.ReadAllLines).ToArray();
+                        var games = gamesParser.Parse(gamesFileStrings);*/ /*
+
+                        var dbContext = new PokerDbContext();
+
+                        dbContext.Game.AddRange(games);
+                        dbContext.SaveChanges();*/
 
             var dbContext = new PokerDbContext();
 
-            dbContext.Game.AddRange(games);
-            dbContext.SaveChanges();
+            var napaum = dbContext.Player
+                .Include(p => p.Games)
+                .Include(p => p.PlayerGameSnapshots)
+                .ThenInclude(p => p.FinishedRounds)
+                .Include(p => p.PlayerGameSnapshots)
+                .ThenInclude(p => p.StartedRounds)
+                .AsSplitQuery()
+                .FirstOrDefault(p => p.NickName == "Napaum");
+
+            var statsCalculator =
+                new PlayerStatisticsCalculator(
+                    new TotalGamesCalculator(),
+                    new TotalEnterFlopCalculator(),
+                    new TotalEnterTurnCalculator(),
+                    new TotalEnterRiverCalculator(),
+                    new TotalEnterShowDownCalculator(),
+                    new WinnedMoneyCalculator(),
+                    new WinnedBlindsCalculator());
+
+            var stats = statsCalculator.Calculate(napaum);
         }
     }
 }

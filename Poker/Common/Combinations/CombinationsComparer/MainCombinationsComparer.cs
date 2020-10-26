@@ -11,7 +11,7 @@ namespace Common.Combinations.CombinationsComparer
             _combinationTypeGetter = combinationTypeGetter;
         }
 
-        public CombinationCompareType Compare(Player[] players, Board board)
+        public CombinationCompareType Compare(PlayerGameSnapshot[] players, Board board)
         {
             var playersWithBoard = players.Select(s => new
             {

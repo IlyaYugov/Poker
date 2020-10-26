@@ -19,7 +19,7 @@ namespace Parser
             _cardsBaseParser = cardsBaseParser;
         }
 
-        public Round Parse(Game game, List<Player> startedPlayers, RoundType roundType, string[] lines, ref int lineIndex)
+        public Round Parse(Game game, List<PlayerGameSnapshot> startedPlayers, RoundType roundType, string[] lines, ref int lineIndex)
         {
             var round = Initialize(startedPlayers, roundType);
             round.Cards = _cardsBaseParser.Parse(lines[lineIndex]);
@@ -30,7 +30,7 @@ namespace Parser
             return round;
         }
 
-        private Round Initialize(List<Player> startedPlayers, RoundType roundType)
+        private Round Initialize(List<PlayerGameSnapshot> startedPlayers, RoundType roundType)
         {
             var round = new Round
             {

@@ -2,6 +2,6 @@
 {
     public interface ICombinationsComparer
     {
-        CombinationCompareType Compare(Player[] players, Board board);
+        CombinationCompareType Compare(PlayerGameSnapshot[] players, Board board);
     }
 }

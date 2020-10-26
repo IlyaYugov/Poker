@@ -11,15 +11,18 @@ namespace Parser
             _moneyBaseParser = moneyBaseParser;
         }
 
-        public Player Parse(string line)
+        public PlayerGameSnapshot Parse(string line)
         {
             var startNickNameIndex = line.IndexOf(':') + 2;
             var finishNickNameIndex = line.IndexOf('(') - 2;
 
-            var player = new Player
+            var player = new PlayerGameSnapshot
             {
-                NickName = line.Substring(startNickNameIndex, finishNickNameIndex - startNickNameIndex + 1),
-                Money = _moneyBaseParser.Parse(line,'(')
+                Player = new Player
+                {
+                    NickName = line.Substring(startNickNameIndex, finishNickNameIndex - startNickNameIndex + 1)
+                },
+                MoneyOnStart = _moneyBaseParser.Parse(line,'(')
             };
 
             return player;

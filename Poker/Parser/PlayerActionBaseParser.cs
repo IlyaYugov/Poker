@@ -13,15 +13,15 @@ namespace Parser
             _moneyBaseParser = moneyBaseParser;
         }
 
-        public PlayerAction Parse(List<Player> roundPlayers, ActionType actionType, string line)
+        public PlayerAction Parse(List<PlayerGameSnapshot> roundPlayers, ActionType actionType, string line)
         {
-            var player = roundPlayers.FirstOrDefault(p => line.Contains(p.NickName));
+            var player = roundPlayers.FirstOrDefault(p => line.Contains(p.Player.NickName));
             if(player == null)
                 return new PlayerAction();
 
             var action = new PlayerAction
             {
-                Player = player,
+                PlayerGameSnapshot = player,
                 ActionType = actionType,
                 Money = _moneyBaseParser.Parse(line, '[')
             };

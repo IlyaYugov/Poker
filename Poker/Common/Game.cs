@@ -10,6 +10,7 @@ namespace Common
         }
 
         public int Id { get; set; }
+        public List<PlayerGameSnapshot> PlayerGameSnapshots { get; set; }
         public List<Player> Players { get; set; }
         public Board Board { get; set; }
         public List<Round> Rounds { get; set; }

@@ -2,36 +2,36 @@
 {
     public class BlindMoneyUpdater
     {
-        private void UpdateGameBank(Game game, Player player)
+        private void UpdateGameBank(Game game, PlayerGameSnapshot playerGameSnapshot)
         {
-            if (player.PositionType == PositionType.SmallBlind)
+            if (playerGameSnapshot.PositionType == PositionType.SmallBlind)
             {
                 game.TotalBank += game.SmallBlind;
             }
 
-            if (player.PositionType == PositionType.BigBlind)
+            if (playerGameSnapshot.PositionType == PositionType.BigBlind)
             {
                 game.TotalBank += game.BigBlind;
             }
         }
 
-        private void UpdatePlayerMoney(Game game, Player player)
+        private void UpdatePlayerMoney(Game game, PlayerGameSnapshot playerGameSnapshot)
         {
-            if (player.PositionType == PositionType.SmallBlind)
+            if (playerGameSnapshot.PositionType == PositionType.SmallBlind)
             {
-                player.Money -= game.SmallBlind;
+                playerGameSnapshot.GaveMoneyToBank += game.SmallBlind;
             }
 
-            if (player.PositionType == PositionType.BigBlind)
+            if (playerGameSnapshot.PositionType == PositionType.BigBlind)
             {
-                player.Money -= game.BigBlind;
+                playerGameSnapshot.GaveMoneyToBank += game.BigBlind;
             }
         }
 
-        public void Update(Game game, Player player)
+        public void Update(Game game, PlayerGameSnapshot playerGameSnapshot)
         {
-            UpdatePlayerMoney(game, player);
-            UpdateGameBank(game, player);
+            UpdatePlayerMoney(game, playerGameSnapshot);
+            UpdateGameBank(game, playerGameSnapshot);
         }
     }
 }

@@ -6,10 +6,10 @@ namespace StatisticsCalculator.Calculators
 {
     public class WinnedMoneyCalculator : WinnedMoneyStatisticBase, IStatisticCalculator<double>
     {
-        public double Calculate(Player player, List<Game> playerGames)
+        public double Calculate(Player player)
         {
-            var winnedMoney = player.StartedRounds
-                .Sum(GetWinnedMoneyInRound);
+            var winnedMoney = player.PlayerGameSnapshots
+                .Sum(ps => ps.CollectedMoney - ps.GaveMoneyToBank);
 
             return winnedMoney;
         }

@@ -1,17 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Linq;
 using Common;
 
 namespace StatisticsCalculator.Calculators
 {
-    public class WinnedBlindsCalculator : WinnedMoneyStatisticBase, IStatisticCalculator<int>
+    public class WinnedBlindsCalculator : WinnedMoneyStatisticBase, IStatisticCalculator<double>
     {
-        public int Calculate(Player player, List<Game> playerGames)
+        public double Calculate(Player player)
         {
-            var winnedMoney = player.StartedRounds
-                .Sum(round=> (int)(GetWinnedMoneyInRound(round)/round.Game.BigBlind) );
+            var winnedMoney = player.PlayerGameSnapshots
+                .Sum(GetWinnedBlinds);
 
             return winnedMoney;
+        }
+
+        private double GetWinnedBlinds(PlayerGameSnapshot playerGameSnapshot)
+        {
+            var winnedBlinds = (playerGameSnapshot.CollectedMoney - playerGameSnapshot.GaveMoneyToBank) / playerGameSnapshot.Game.BigBlind;
+
+            return winnedBlinds;
         }
     }
 }
