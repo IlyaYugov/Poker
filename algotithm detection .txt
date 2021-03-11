@@ -1,0 +1,104 @@
+70 90 line
+
+extern rectangle: 1204,224;1309,225;  dim(105,1)
+minR/MaxR: 0.018864566947613626;  min radius: 1.0;  max Radius: 53.009433122794285
+max distance: 106.01886624558857
+length: 216.0
+maxD/length: 0.49082808447031745
+area: -212.0
+16 area/length2: -0.07270233196159122
+mass center: 1257,225; (1257.0,225.0)
+angle inert: -0.0;  Ix: -198502.66666668653;  Iy: -70.66666666604578
+Iy / Ix: 3.559985760025325E-4;     area2/(Ix + Iy): -0.2263345195729318
+
+
+50 70 action rect
+
+extern rectangle: 608,157;767,177;  dim(159,20)
+minR/MaxR: 0.12939327742941611;  min radius: 10.445314006428402;  max Radius: 80.72532216464111
+max distance: 160.90059042775448
+length: 362.0
+maxD/length: 0.44447676913744333
+area: -3340.0
+16 area/length2: -0.40780195964714144
+mass center: 688,167; (687.9532934131737,167.4452095808383)
+angle inert: 1.9267779412050044E-4;  Ix: -7045494.304146847;  Iy: -121773.04964534455
+Iy / Ix: 0.01728381918833874;     area2/(Ix + Iy): -1.5564648909179573
+
+
+
+70 actioning user
+
+extern rectangle: 602,313;680,340;  dim(78,27)
+minR/MaxR: 0.3390817007748657;  min radius: 13.984484628883258;  max Radius: 41.24222745410935
+max distance: 82.28000972289685
+length: 214.0
+maxD/length: 0.38448602674250865
+area: -2194.0
+16 area/length2: -0.7665298279325705
+mass center: 642,327; (641.535095715588,327.0232452142206)
+angle inert: 2.880206917805044E-5;  Ix: -1123731.1317780137;  Iy: -141514.14701260955
+Iy / Ix: 0.12593238988466934;     area2/(Ix + Iy): -3.804508169831769
+
+
+
+150 menu
+
+extern rectangle: 42,1;724,38;  dim(682,37)  
+minR/MaxR: 0.04267208850055546;  min radius: 14.739542057952422;  max Radius: 345.4141237488425
+max distance: 683.6585405010311
+length: 1466.0
+maxD/length: 0.4663427970675519
+area: -20782.0
+16 area/length2: -0.1547174797920672
+mass center: 380,24; (379.9231546530651,23.739341738042537)
+angle inert: -0.0016802872992478079;  Ix: -8.155658506335824E8;  Iy: -1634921.325260709
+Iy / Ix: 0.00200464661926514;     area2/(Ix + Iy): -0.5285011209237471
+
+
+
+(15,17) -> (1111, 869)
+
+
+extern rectangle: 15,17;1111,46;  dim(1096,29)
+minR/MaxR: 0.027352273445560866;  min radius: 15.008331019803634;  max Radius: 548.7050664974764
+max distance: 1097.4101329949528
+length: 2254.0
+maxD/length: 0.4868722861557022
+area: -32910.0
+16 area/length2: -0.1036430157881601
+mass center: 564,32; (563.5,32.0)
+angle inert: -0.0;  Ix: -3.3003491825E9;  Iy: -2468250.0
+Iy / Ix: 7.478754106043748E-4;     area2/(Ix + Iy): -0.3279224850100763
+
+
+extern rectangle: 15,33;1112,869;  dim(1097,836)
+minR/MaxR: 0.5879352389525915;  min radius: 408.2847479540689;  max Radius: 694.4383001798454
+max distance: 1380.642241857028
+length: 4386.0
+maxD/length: 0.3147839128720994
+area: 902094.0
+16 area/length2: 0.7502992670997073
+mass center: 564,458; (563.9614663216915,458.20729214472107)
+angle inert: -0.0022593918201395703;  Ix: 9.037304866764163E10;  Iy: 5.09036423978799E10
+Iy / Ix: 0.5632613168233873;     area2/(Ix + Iy): 5.760140464066976
+
+
+
+
+
+Sit & Go
+Tournament
+BLAST
+
+
+C:\Users\ilyaugov\Documents\888poker\HandHistory\Napaum\888poker20200706 Aachen 0,01 $-0,02 $ No Limit Holdem.txt
+
+C:\Users\ilyaugov\Documents\888poker\HandHistory\Napaum\888poker20200713 Vancouver 0,01 $-0,02 $ No Limit Holdem.txt
+
+C:\Users\ilyaugov\Documents\888poker\HandHistory\Napaum\888poker20200720 Gaborone 0,01 $-0,02 $ No Limit Holdem.txt
+
+C:\Users\ilyaugov\Documents\888poker\HandHistory\Napaum\888poker20200720 Jaboatao 0,02 $-0,05 $ No Limit Holdem.txt
+
+
+did not show his hand
