@@ -1,6 +1,4 @@
-﻿
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Common
 {
@@ -16,16 +14,5 @@ namespace Common
         public IReadOnlyCollection<Round> FinishedRounds { get; set; }
         public Player Player { get; set; }
         public Game Game { get; set; }
-    }
-
-    public enum PositionType
-    {
-        None,
-        SmallBlind,
-        BigBlind,
-        UnderTheGun,
-        MidlePosition,
-        CottOff,
-        Diller
     }
 }
